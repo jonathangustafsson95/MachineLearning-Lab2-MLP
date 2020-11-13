@@ -1,9 +1,18 @@
+from Layer import Layer
+
 class MLP:
     def __init__(self, loss_function):
-        pass
+        self.layers = []
+        self.activations_functions = []
+        self.loss_function = loss_function
 
     def add_layer(self, size, activation_function):
-        pass
+        n_inputs = 0
+        if self.layers:
+            n_inputs = len(self.layers[-1:])
+
+        self.layers.append(Layer(size, n_inputs))
+        self.activations_functions.append(activation_function)
 
     def _backprop(self, x, y, d_loss, learning_rate):
         pass

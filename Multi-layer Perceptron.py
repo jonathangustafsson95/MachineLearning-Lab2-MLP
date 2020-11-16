@@ -26,20 +26,23 @@ class MLP:
             err = 0
             
             for j in range(len(samples)):
-
-                output = x[j]
+                
+                output = [x[j]]
                 for k, layer in enumerate(self.layers):
-                    input_data = output
-                    output = []
+                    output.append([])
 
-                    for node in range(layer.n_nodes):
-                        node_value = layer.forward(input_data)
-                        output.append(self.activations_functions[k](node_value))
+                    for _ in range(layer.n_nodes):
+                        node_value = layer.forward(output[k])
+                        output[k+1].append(self.activations_functions[k](node_value))
 
                 err += self.loss_function(output ,y[j]) # display purpose
-                
-                # fault + backprop
-                    
+                            
+                d_loss = []
+                for l in range(self.layers[-1].n_nodes):
+                    d_loss.append(self.loss_function.backward(output[-1][l], y[j]))
+
+                for l in reversed(range(len(self.layers))):
+                    d_loss = self._backprop(output[l], y, d_loss, learning_rate)
 
 
     def predict(self, x, y):
@@ -55,4 +58,4 @@ l = [
 net = MLP(SquaredErrorLoss)
 net.add_layer(len(l[0]), InputActivationFunction)
 net.add_layer(8, SigmoidActivationFunction)
-net.add_layer(2, LinearActivationFunction)
+net.add_layer(1, LinearActivationFunction)

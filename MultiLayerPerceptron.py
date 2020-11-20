@@ -24,9 +24,11 @@ class MLP:
             # derror = x - y
             # duoto_dino = self.activation_function[i].backward(self.layers[i-1].x)
             delta = self.layers[i].backprop(d_loss, learning_rate)
-            d_loss = self.activations_functions[i].backward(delta)
+            d_loss = self.activations_functions[i].backward(delta).reshape(1,-1)
+            print('jsadsakjdakjskjd_loss')
+            print(d_loss)
 
-    def train(self, x, y, learning_rate=0.01, n_epochs=20):
+    def train(self, x, y, learning_rate=0.01, n_epochs=1000):
         for i in range(n_epochs): 
             sum_error = 0
             output = x

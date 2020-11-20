@@ -3,6 +3,7 @@ import numpy as np
 from MultiLayerPerceptron import MLP
 from Loss import SquaredErrorLoss
 from Activation import LinearActivationFunction, SigmoidActivationFunction, InputActivationFunction
+from Normalizer import Normalizer
 
 
 def main():
@@ -10,9 +11,15 @@ def main():
     data = genfromtxt('data/plastic.csv', delimiter=', ')
     x = data[:, :-1]
     y = data[:, -1]
-    x = x[:3]
-    y = y[:3]
-    y = y.reshape(3,1)
+    x = x[:15]
+    y = y[:15]
+    y = y.reshape(15,1)
+
+    # Normalize data
+    normalizer = Normalizer()
+    normalizer.fit(x,y)
+    x, y = normalizer.normalize(x,y)
+    print("X: {}, Y: {}" .format(x,y))
 
     # Define loss function and activation function
     loss_func = SquaredErrorLoss()

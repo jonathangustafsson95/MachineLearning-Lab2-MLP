@@ -25,28 +25,35 @@ class MLP:
             # duoto_dino = self.activation_function[i].backward(self.layers[i-1].x)
             delta = self.layers[i].backprop(d_loss, learning_rate)
             d_loss = self.activations_functions[i].backward(delta).reshape(1,-1)
-            print('jsadsakjdakjskjd_loss')
-            print(d_loss)
+            #print('loss')
+            #print(d_loss)
 
     def train(self, x, y, learning_rate=0.01, n_epochs=1000):
         for i in range(n_epochs): 
             sum_error = 0
             output = x
-            print('output')
-            print(output)
+            #print('output before acvt func')
+            #print(output)
             for j, layer in enumerate(self.layers):
                 output = self.activations_functions[j].forward(layer.forward(output))
 
-            print('output')
-            print(output)
+            #print('output after actv func')
+            #print(output)
 
             # print(np.average(self.loss_function.forward(output, y)))
 
-            error = y - output
-            print("Error: {}" .format(error))
-            sum_error += (np.average(self.loss_function.forward(output, y)))
+            #print("Y: {}".format(y))
+            #print("Y shape: {}".format(y.shape))
 
-            print("Error: {} at epoch {}".format(sum_error / len(x), i))
+
+            error = y - output
+            #print("Error: {}".format(error))
+
+            sum_error += (np.average(self.loss_function.forward(output, y)))
+            #print("Sum Error: {}".format(sum_error))
+
+
+            print("Error: {} at epoch {}".format(sum_error / len(x), i+1))
             
             
             d_loss = np.average(self.loss_function.backward(output, y), axis=0)

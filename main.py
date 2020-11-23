@@ -10,9 +10,9 @@ def main():
     data = genfromtxt('data/plastic.csv', delimiter=', ')
     x = data[:, :-1]
     y = data[:, -1]
-    x = x[:2]
-    y = y[:2]
-    y = y.reshape(2,1)
+    x = x[:len(x)]
+    y = y[:len(y)]
+    y = y.reshape(len(x),1)
 
     # Normalize data
     normalizer = Normalizer()
@@ -33,11 +33,15 @@ def main():
     model.add_layer(2, activation_func_inp)
     # Hidden layer
     model.add_layer(4, activation_func_hid)
+    # Hidden layer
+    model.add_layer(2, activation_func_hid)
+    # Hidden layer
+    model.add_layer(2, activation_func_hid)
     # Output
     model.add_layer(1, activation_func_out)
 
     # Train
-    model.train(x, y, 0.01, 2)
+    model.train(x, y, 0.02, 1000)
 
 
 if __name__ == "__main__":

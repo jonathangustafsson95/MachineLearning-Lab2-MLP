@@ -23,10 +23,18 @@ class MLP:
         for i in reversed(range(len(self.layers))):
             # derror = x - y
             # duoto_dino = self.activation_function[i].backward(self.layers[i-1].x)
-            delta = self.layers[i].backprop(d_loss, learning_rate)
-            d_loss = self.activations_functions[i].backward(delta).reshape(1,-1)
-            #print('loss')
-            #print(d_loss)
+            print('d_loss')
+            print(d_loss)
+            print('x')
+            print(x)
+            print('y')
+            print(y)
+            print('self.activations_functions[i].backward(x)')
+            print(self.activations_functions[i].backward(x).reshape(-1, len(x[0])).T)
+            d_loss = self.activations_functions[i].backward(x).reshape(-1, len(x[0])).T * d_loss
+            x = self.layers[i].backprop(d_loss, learning_rate)
+            print('jsadsakjdakjskjd_loss')
+            print(d_loss)
 
     def train(self, x, y, learning_rate=0.01, n_epochs=1000):
         for i in range(n_epochs): 
@@ -56,7 +64,7 @@ class MLP:
             print("Error: {} at epoch {}".format(sum_error / len(x), i+1))
             
             
-            d_loss = np.average(self.loss_function.backward(output, y), axis=0)
+            d_loss = self.loss_function.backward(output, y)
 
             self._backprop(output, y, d_loss, learning_rate)
 

@@ -5,15 +5,14 @@ from Loss import SquaredErrorLoss
 from Activation import LinearActivationFunction, SigmoidActivationFunction, InputActivationFunction
 from Normalizer import Normalizer
 
-
 def main():
     # Data prep
     data = genfromtxt('data/plastic.csv', delimiter=', ')
     x = data[:, :-1]
     y = data[:, -1]
-    x = x[:15]
-    y = y[:15]
-    y = y.reshape(15,1)
+    x = x[:2]
+    y = y[:2]
+    y = y.reshape(2,1)
 
     # Normalize data
     normalizer = Normalizer()
@@ -33,12 +32,12 @@ def main():
     # Input layer
     model.add_layer(2, activation_func_inp)
     # Hidden layer
-    model.add_layer(2, activation_func_hid)
+    model.add_layer(4, activation_func_hid)
     # Output
     model.add_layer(1, activation_func_out)
 
     # Train
-    model.train(x, y)
+    model.train(x, y, 0.01, 2)
 
 
 if __name__ == "__main__":

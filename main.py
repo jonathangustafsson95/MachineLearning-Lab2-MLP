@@ -8,61 +8,105 @@ from Normalizer import Normalizer
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
+class Dataset:
+    def __init__(self, name, learning_rate, epochs, loss_f, layers): 
+        self.name = name
+        self.learning_rate = learning_rate
+        self.epochs = epochs
+        self.loss_f = loss_f
+        self.layers = layers
+        self.X_train = None
+        self.X_test = None
+        self.y_train = None
+        self.y_test = None
+        self.pred = None
+
+
+class Layer:
+    def __init__(self, act_f_of_layer, nodes_per_layer):
+        self.act_f_of_layer = act_f_of_layer
+        self.nodes_per_layer = nodes_per_layer
+
+
 def main():
     # Data prep
-    #plastic_data = genfromtxt('data/plastic.csv', delimiter=', ')
-    boston_data = genfromtxt('data/boston.csv', delimiter=', ')
 
-    x = boston_data[:, :-1]
-    y = boston_data[:, -1]
-    x = x[:len(x)]
-    y = y[:len(y)]
-    y = y.reshape(len(x),1)
+    datasets = [Dataset(name = 'boston', learning_rate = 0.025,\
+        epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+            act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],             
+            nodes_per_layer = [13, 8 ,1])),
 
-    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=0)
+        Dataset(name = 'concrete', learning_rate = 0.025,\
+            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [8, 5 ,1])),
 
-    # print("Boston Data before norm:")
-    # print("X: {}, Y: {}" .format(x,y))
+        Dataset(name = 'friedm', learning_rate = 0.025, \
+            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [5, 3 ,1])),
 
+        Dataset(name = 'istanbul', learning_rate = 0.025, \
+            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [7, 5 ,1])),
 
-    # Define loss function and activation function
-    loss_func = SquaredErrorLoss()
-    activation_func_inp = InputActivationFunction()
-    activation_func_hid = SigmoidActivationFunction()
-    activation_func_out = LinearActivationFunction()
-    model = MLP(loss_func)
+        Dataset(name = 'laser', learning_rate = 0.025, \
+            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [4, 3 ,1])),
 
-    # Add layers
+        Dataset(name = 'plastic', learning_rate = 0.025, \
+            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [2, 2 ,1])),
 
-    # Input layer
-    model.add_layer(13, activation_func_inp)
-    # Hidden layer
-    model.add_layer(10, activation_func_hid)
-    # Output
-    model.add_layer(1, activation_func_out)
+        Dataset(name = 'quakes', learning_rate = 0.025, \
+            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [3, 2 ,1])),
 
-    # Train
-    model.train(X_train, y_train, 0.01, 20000)
+        Dataset(name = 'stock', learning_rate = 0.025, \
+            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [9, 7 ,1])),
 
-    # x1 = boston_data[:, :-1]
-    # y1 = boston_data[:, -1]
-    # x1 = x1[:500]
-    # y1 = y1[:500]
-    # y1 = y1.reshape(len(x1),1)
+        Dataset(name = 'wizmir', learning_rate = 0.025, \
+            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [9, 7 ,1]))
+        ]
+    
+    for dataset in datasets:
+        data = genfromtxt(f'data/{dataset.name}.csv', delimiter=', ')
 
-    #print("X1:  {}  \nY1: {}".format(x1,y1))
-    # Make predict
-    pred = model.predict(X_test, y_test)
-    diff = y_test.round(1) - pred.round(1)
+        x = data[:, :-1]
+        y = data[:, -1]
+        x = x[:len(x)]
+        y = y[:len(y)]
+        y = y.reshape(len(x),1)
 
-    print("\n \n Target:        Pred:       Difference:\n")
-    print(np.c_[y_test, pred, diff])
+        dataset.X_train, dataset.X_test, dataset.y_train, dataset.y_test = \
+            train_test_split(x, y, test_size=0.25, random_state=0)
 
-    print("\nAvg TARGET")
-    print(np.average(y_test))
+        model = MLP(dataset.loss_f)
+        for i in range(len(dataset.layers.act_f_of_layer)):
+            model.add_layer(dataset.layers.nodes_per_layer[i], dataset.layers.act_f_of_layer[i])
+        
+        model.train(dataset.X_train, dataset.y_train, dataset.learning_rate, dataset.epochs)
 
-    print("Avg PRED")
-    print(np.average(pred))
+        dataset.pred = model.predict(dataset.X_test, dataset.y_test)
+
+    for dataset in datasets:
+        print(f'{dataset.name}')
+        print("\n \n Target:        Pred:\n")
+        print(np.c_[dataset.y_test, dataset.pred])
+
+        print("\nAvg TARGET")
+        print(np.average(dataset.y_test))
+
+        print("Avg PRED")
+        print(np.average(dataset.pred))
 
 
 if __name__ == "__main__":

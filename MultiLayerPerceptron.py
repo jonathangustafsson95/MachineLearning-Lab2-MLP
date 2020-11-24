@@ -43,7 +43,7 @@ class MLP:
             
             sum_error += (np.average(self.loss_function.forward(output, y)))
 
-            print("Error: {} at epoch {}".format(sum_error / len(x), i+1))
+            #print("Error: {} at epoch {}".format(sum_error / len(x), i+1))
                         
             d_loss = self.loss_function.backward(output, y)
 

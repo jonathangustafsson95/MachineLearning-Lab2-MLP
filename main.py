@@ -97,6 +97,8 @@ def main():
 
         dataset.pred = model.predict(dataset.X_test, dataset.y_test)
 
+        model.plot(dataset.name, 100)
+
     for dataset in datasets:
         print(f'{dataset.name}')
         print("\n \n Target:        Pred:\n")

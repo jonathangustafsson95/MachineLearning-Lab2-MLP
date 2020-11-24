@@ -32,8 +32,8 @@ class MLP:
         # Normalize data
         self.normalizer.fit(x,y)
         x, y = self.normalizer.normalize(x,y)
-        print("Data after norm:")
-        print("X: {}, Y: {}" .format(x,y))
+        # print("Data after norm:")
+        # print("X: {}, Y: {}" .format(x,y))
 
         for i in range(n_epochs): 
             sum_error = 0
@@ -48,16 +48,7 @@ class MLP:
             d_loss = self.loss_function.backward(output, y)
 
             self._backprop(output, d_loss, learning_rate)
-
-        print(output)
-        out = self.normalizer.renormalize(output)
-        print(out)
-
-        yNorm = self.normalizer.renormalize(y)
-        print(yNorm)
-
-        print(np.average(yNorm))
-        print(np.average(out))
+            
 
     def predict(self, x, y): 
         # Normalize data

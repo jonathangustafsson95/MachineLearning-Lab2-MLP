@@ -67,7 +67,7 @@ class MLP:
 
     def plot(self, dataset_name, nr_epochs):
         plt.figure(figsize=(10,6))
-        plt.scatter(np.arange(1, nr_epochs+1), self.errors, label='mu')
+        plt.scatter(np.arange(1, nr_epochs+1), self.errors, label='loss')
         plt.title('Average Loss by epoch. {}'.format(dataset_name), fontsize=20)
         plt.xlabel('Epochs', fontsize=16)
         plt.ylabel('Loss', fontsize=16)

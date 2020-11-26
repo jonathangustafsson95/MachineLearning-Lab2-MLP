@@ -31,50 +31,50 @@ class Layer:
 def main():
     # Data prep
 
-    datasets = [Dataset(name = 'boston', learning_rate = 0.025,\
-        epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
+    datasets = [Dataset(name = 'boston', learning_rate = 0.01,\
+        epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
             act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],             
             nodes_per_layer = [13, 8 ,1])),
 
-        Dataset(name = 'concrete', learning_rate = 0.025,\
-            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
+        Dataset(name = 'concrete', learning_rate = 0.01,\
+            epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [8, 5 ,1])),
 
-        Dataset(name = 'friedm', learning_rate = 0.025, \
-            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
+        Dataset(name = 'friedm', learning_rate = 0.01, \
+            epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [5, 3 ,1])),
 
-        Dataset(name = 'istanbul', learning_rate = 0.025, \
-            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
+        Dataset(name = 'istanbul', learning_rate = 0.01, \
+            epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [7, 5 ,1])),
 
-        Dataset(name = 'laser', learning_rate = 0.025, \
-            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
+        Dataset(name = 'laser', learning_rate = 0.01, \
+            epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [4, 3 ,1])),
 
-        Dataset(name = 'plastic', learning_rate = 0.025, \
-            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
+        Dataset(name = 'plastic', learning_rate = 0.01, \
+            epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [2, 2 ,1])),
 
-        Dataset(name = 'quakes', learning_rate = 0.025, \
-            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
+        Dataset(name = 'quakes', learning_rate = 0.01, \
+            epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [3, 2 ,1])),
 
-        Dataset(name = 'stock', learning_rate = 0.025, \
-            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
+        Dataset(name = 'stock', learning_rate = 0.01, \
+            epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
-                nodes_per_layer = [9, 7 ,1])),
+                nodes_per_layer = [9, 7, 1])),
 
-        Dataset(name = 'wizmir', learning_rate = 0.025, \
-            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
+        Dataset(name = 'wizmir', learning_rate = 0.01, \
+            epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
-                nodes_per_layer = [9, 7 ,1]))
+                nodes_per_layer = [9, 7, 1]))
         ]
     
     for dataset in datasets:
@@ -114,25 +114,6 @@ def main():
 
         print("Avg PRED")
         print(np.average(dataset.pred))
-
-        
-        # plot loss during training
-        plt.subplot(211)
-        plt.title('Loss')
-        plt.plot(dataset.y_test, dataset.pred, 'ro', label='train')
-        plt.scatter(dataset.y_test, dataset.pred)
-        xy_max = max(max(dataset.pred), max(dataset.y_test))
-        xy_min = min(min(dataset.pred), min(dataset.y_test))
-        plt.xlim(xy_min, xy_max)
-        plt.ylim(xy_min, xy_max)
-        plt.legend()
-        # plot accuracy during training
-        # plt.subplot(212)
-        # plt.title('Accuracy')
-        # plt.plot(history.history['accuracy'], label='train')
-        # plt.plot(history.history['val_accuracy'], label='test')
-        # plt.legend()
-        plt.show()
 
 
 if __name__ == "__main__":

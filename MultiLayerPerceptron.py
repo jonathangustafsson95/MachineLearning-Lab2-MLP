@@ -65,12 +65,23 @@ class MLP:
         return self.normalizer.renormalize(output)
 
 
-    def plot(self, dataset_name, nr_epochs):
+    def plot(self, dataset_name, nr_epochs, y_test, y_pred):
         plt.figure(figsize=(10,6))
         plt.scatter(np.arange(1, nr_epochs+1), self.errors, label='loss')
         plt.title('Average Loss by epoch. {}'.format(dataset_name), fontsize=20)
         plt.xlabel('Epochs', fontsize=16)
         plt.ylabel('Loss', fontsize=16)
+        plt.show()
+
+        plt.scatter(y_test, y_pred)
+        xy_max = max(max(y_pred), max(y_test))
+        xy_min = min(min(y_pred),  min(y_test))
+        plt.xlim(xy_min, xy_max)
+        plt.ylim(xy_min, xy_max)
+        
+        plt.xlabel("Target")
+        plt.ylabel("Predicted")
+        plt.title("Actual Y vs Predicted Y\nData: {}".format(dataset_name))
         plt.show()
 
         

@@ -97,7 +97,12 @@ def main():
 
         dataset.pred = model.predict(dataset.X_test, dataset.y_test)
 
-        model.plot(dataset.name, dataset.epochs)
+
+        # Plot x = predicerade y. Y = dataset.ytest
+        # Slumpa data mängden innan split test/train
+        # 
+
+        model.plot(dataset.name, dataset.epochs, dataset.y_test, dataset.pred)
 
     for dataset in datasets:
         print(f'{dataset.name}')

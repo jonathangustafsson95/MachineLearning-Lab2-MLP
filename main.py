@@ -32,47 +32,47 @@ def main():
     # Data prep
 
     datasets = [Dataset(name = 'boston', learning_rate = 0.025,\
-        epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+        epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
             act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],             
             nodes_per_layer = [13, 8 ,1])),
 
         Dataset(name = 'concrete', learning_rate = 0.025,\
-            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [8, 5 ,1])),
 
         Dataset(name = 'friedm', learning_rate = 0.025, \
-            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [5, 3 ,1])),
 
         Dataset(name = 'istanbul', learning_rate = 0.025, \
-            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [7, 5 ,1])),
 
         Dataset(name = 'laser', learning_rate = 0.025, \
-            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [4, 3 ,1])),
 
         Dataset(name = 'plastic', learning_rate = 0.025, \
-            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [2, 2 ,1])),
 
         Dataset(name = 'quakes', learning_rate = 0.025, \
-            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [3, 2 ,1])),
 
         Dataset(name = 'stock', learning_rate = 0.025, \
-            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [9, 7 ,1])),
 
         Dataset(name = 'wizmir', learning_rate = 0.025, \
-            epochs = 100, loss_f = SquaredErrorLoss, layers = Layer(
+            epochs = 1000, loss_f = SquaredErrorLoss, layers = Layer(
                 act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
                 nodes_per_layer = [9, 7 ,1]))
         ]
@@ -96,6 +96,13 @@ def main():
         model.train(dataset.X_train, dataset.y_train, dataset.learning_rate, dataset.epochs)
 
         dataset.pred = model.predict(dataset.X_test, dataset.y_test)
+
+
+        # Plot x = predicerade y. Y = dataset.ytest
+        # Slumpa data mängden innan split test/train
+        # 
+
+        model.plot(dataset.name, dataset.epochs, dataset.y_test, dataset.pred)
 
     for dataset in datasets:
         print(f'{dataset.name}')

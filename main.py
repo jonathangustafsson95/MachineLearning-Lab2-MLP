@@ -108,6 +108,25 @@ def main():
         print("Avg PRED")
         print(np.average(dataset.pred))
 
+        
+        # plot loss during training
+        plt.subplot(211)
+        plt.title('Loss')
+        plt.plot(dataset.y_test, dataset.pred, 'ro', label='train')
+        plt.scatter(dataset.y_test, dataset.pred)
+        xy_max = max(max(dataset.pred), max(dataset.y_test))
+        xy_min = min(min(dataset.pred), min(dataset.y_test))
+        plt.xlim(xy_min, xy_max)
+        plt.ylim(xy_min, xy_max)
+        plt.legend()
+        # plot accuracy during training
+        # plt.subplot(212)
+        # plt.title('Accuracy')
+        # plt.plot(history.history['accuracy'], label='train')
+        # plt.plot(history.history['val_accuracy'], label='test')
+        # plt.legend()
+        plt.show()
+
 
 if __name__ == "__main__":
     main()

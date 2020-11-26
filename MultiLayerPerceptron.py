@@ -21,11 +21,11 @@ class MLP:
         self.layers.append(Layer(size, n_inputs))
         self.activations_functions.append(activation_function)
 
-    def _backprop(self, x, d_loss, learning_rate):
-        
+    def _backprop(self, d_loss, learning_rate):
         for i in range(len(self.layers)-1, 1, -1):
-            d_loss = self.activations_functions[i].backward(x).reshape(len(x), -1) * d_loss
-            x = self.layers[i].backprop(d_loss, learning_rate)
+            input_data = self.layers[i].get_output()
+            loss = self.activations_functions[i].backward(input_data).reshape(len(input_data), -1) * d_loss
+            d_loss = self.layers[i].backprop(loss, learning_rate)
 
     def train(self, x, y, learning_rate=0.01, n_epochs=10):
 
@@ -47,7 +47,7 @@ class MLP:
                         
             d_loss = self.loss_function.backward(output, y)
 
-            self._backprop(output, d_loss, learning_rate)
+            self._backprop(d_loss, learning_rate)
             
 
     def predict(self, x, y): 

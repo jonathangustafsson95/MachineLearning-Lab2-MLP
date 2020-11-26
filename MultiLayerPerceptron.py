@@ -42,6 +42,7 @@ class MLP:
             output = x
             for j, layer in enumerate(self.layers):
                 output = self.activations_functions[j].forward(layer.forward(output))
+                layer.set_output(output)
             
             sum_error += (np.average(self.loss_function.forward(output, y)))
 

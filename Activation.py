@@ -2,6 +2,9 @@ import numpy as np
 
 
 class ActivationFunction:
+    """
+    This is Mr.Henriks code. So we refuse to comment this code.
+    """
     @staticmethod
     def forward(z):
         pass
@@ -12,6 +15,9 @@ class ActivationFunction:
 
 
 class SigmoidActivationFunction:
+    """
+    This is Mr.Henriks code. So we refuse to comment this code.
+    """
     @staticmethod
     def forward(z): 
         return 1 / (1 + np.e ** (-z))
@@ -21,6 +27,9 @@ class SigmoidActivationFunction:
 
 
 class LinearActivationFunction:
+    """
+    This is Mr.Henriks code. So we refuse to comment this code.
+    """
     @staticmethod
     def forward(z): 
         return z
@@ -30,6 +39,9 @@ class LinearActivationFunction:
 
 
 class InputActivationFunction:
+    """
+    This is Mr.Henriks code. So we refuse to comment this code.
+    """
     @staticmethod
     def forward(z): 
         return z

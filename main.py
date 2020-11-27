@@ -6,6 +6,7 @@ from Loss import SquaredErrorLoss
 from Activation import LinearActivationFunction, SigmoidActivationFunction, InputActivationFunction
 from Normalizer import Normalizer
 import matplotlib.pyplot as plt
+import time
 from sklearn.model_selection import train_test_split
 
 class Dataset:
@@ -20,6 +21,8 @@ class Dataset:
         self.y_train = None
         self.y_test = None
         self.pred = None
+        self.train_time = None
+        self.pred_time = None
 
 
 class Layer:
@@ -68,13 +71,13 @@ def main():
 
         Dataset(name = 'stock', learning_rate = 0.025, \
             epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
-                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
-                nodes_per_layer = [9, 7, 1])),
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [9, 7, 5, 1])),
 
         Dataset(name = 'wizmir', learning_rate = 0.025, \
             epochs = 5000, loss_f = SquaredErrorLoss, layers = Layer(
-                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
-                nodes_per_layer = [9, 7, 1]))
+                act_f_of_layer = [InputActivationFunction, SigmoidActivationFunction, SigmoidActivationFunction, LinearActivationFunction],
+                nodes_per_layer = [9, 7, 5, 1]))
         ]
     
     for dataset in datasets:
@@ -87,22 +90,26 @@ def main():
         y = y.reshape(len(x),1)
 
         dataset.X_train, dataset.X_test, dataset.y_train, dataset.y_test = \
-            train_test_split(x, y, test_size=0.25, random_state=0)
+            train_test_split(x, y, test_size=0.25)
 
         model = MLP(dataset.loss_f)
         for i in range(len(dataset.layers.act_f_of_layer)):
             model.add_layer(dataset.layers.nodes_per_layer[i], dataset.layers.act_f_of_layer[i])
         
+        train_start = time.time()
         model.train(dataset.X_train, dataset.y_train, dataset.learning_rate, dataset.epochs)
+        dataset.train_time = time.time() - train_start
 
+        pred_start = time.time()
         dataset.pred = model.predict(dataset.X_test, dataset.y_test)
+        dataset.pred_time = time.time() - pred_start
 
 
         # Plot x = predicerade y. Y = dataset.ytest
         # Slumpa data mängden innan split test/train
         # 
 
-        model.plot(dataset.name, dataset.epochs, dataset.y_test, dataset.pred)
+        model.plot(dataset.name, dataset.epochs, dataset.y_test, dataset.pred, dataset.train_time, dataset.pred_time, dataset.epochs)
 
     for dataset in datasets:
         print(f'{dataset.name}')

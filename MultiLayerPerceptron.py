@@ -37,7 +37,7 @@ class MLP:
         # print("Data after norm:")
         # print("X: {}, Y: {}" .format(x,y))
 
-        for i in range(n_epochs): 
+        for _ in range(n_epochs): 
             sum_error = 0
             output = x
             for j, layer in enumerate(self.layers):
@@ -67,22 +67,38 @@ class MLP:
 
 
     def plot(self, dataset_name, nr_epochs, y_test, y_pred):
-        plt.figure(figsize=(10,6))
-        plt.scatter(np.arange(1, nr_epochs+1), self.errors, label='loss')
-        plt.title('Average Loss by epoch. {}'.format(dataset_name), fontsize=20)
-        plt.xlabel('Epochs', fontsize=16)
-        plt.ylabel('Loss', fontsize=16)
-        plt.show()
+        fig, axes = plt.subplots(1,2, figsize = (12,4))
+        axes[0].scatter(np.arange(1, nr_epochs+1), self.errors, label='loss')
+        axes[0].title('Average Loss by epoch. {}'.format(dataset_name), fontsize=20)
+        axes[0].xlabel('Epochs', fontsize=16)
+        axes[0].ylabel('Loss', fontsize=16)
 
-        plt.scatter(y_test, y_pred)
+        axes[1].scatter(y_test, y_pred)
         xy_max = max(max(y_pred), max(y_test))
         xy_min = min(min(y_pred),  min(y_test))
-        plt.xlim(xy_min, xy_max)
-        plt.ylim(xy_min, xy_max)
-        
-        plt.xlabel("Target")
-        plt.ylabel("Predicted")
-        plt.title("Actual Y vs Predicted Y\nData: {}".format(dataset_name))
+        axes[1].plt.xlim(xy_min, xy_max)
+        axes[1].plt.ylim(xy_min, xy_max)
+        axes[1].plt.xlabel("Target")
+        axes[1].plt.ylabel("Predicted")
+        axes[1].plt.title("Actual Y vs Predicted Y\nData: {}".format(dataset_name))
+
         plt.show()
+
+        # plt.figure(figsize=(10,6))
+        # plt.scatter(np.arange(1, nr_epochs+1), self.errors, label='loss')
+        # plt.title('Average Loss by epoch. {}'.format(dataset_name), fontsize=20)
+        # plt.xlabel('Epochs', fontsize=16)
+        # plt.ylabel('Loss', fontsize=16)
+
+        # plt.scatter(y_test, y_pred)
+        # xy_max = max(max(y_pred), max(y_test))
+        # xy_min = min(min(y_pred),  min(y_test))
+        # plt.xlim(xy_min, xy_max)
+        # plt.ylim(xy_min, xy_max)
+        
+        # plt.xlabel("Target")
+        # plt.ylabel("Predicted")
+        # plt.title("Actual Y vs Predicted Y\nData: {}".format(dataset_name))
+        # plt.show()
 
         

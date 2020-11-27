@@ -67,22 +67,34 @@ class MLP:
 
 
     def plot(self, dataset_name, nr_epochs, y_test, y_pred):
-        plt.figure(figsize=(10,6))
-        plt.scatter(np.arange(1, nr_epochs+1), self.errors, label='loss')
-        plt.title('Average Loss by epoch. {}'.format(dataset_name), fontsize=20)
-        plt.xlabel('Epochs', fontsize=16)
-        plt.ylabel('Loss', fontsize=16)
-        plt.show()
 
-        plt.scatter(y_test, y_pred)
         xy_max = max(max(y_pred), max(y_test))
         xy_min = min(min(y_pred),  min(y_test))
+
+        plt.figure(figsize=(10,6))
+        plt.suptitle("Data: {}".format(dataset_name))
+        plt.subplot(121)
+        plt.scatter(np.arange(1, nr_epochs+1), self.errors, label='loss')
+        plt.title("Average Loss by epoch")
+        plt.xlabel('Epochs')
+        plt.ylabel('Loss')
+
+        plt.subplot(122)
+        text1 = "{} {} {} {} {}".format(1, 2,
+            3, 4, 5)
+        text2 = "{} {} {} {} {}".format(6, 7,
+            8, 9, 10)
+        text = text1 + '\n' + text2
+
+        plt.scatter(y_test, y_pred)
         plt.xlim(xy_min, xy_max)
         plt.ylim(xy_min, xy_max)
-        
         plt.xlabel("Target")
         plt.ylabel("Predicted")
-        plt.title("Actual Y vs Predicted Y\nData: {}".format(dataset_name))
-        plt.show()
+        plt.title("Actual Y vs Predicted ")
+        plt.annotate(text, xy=(1, 1), xytext=(-15, -15), fontsize=10,
+            xycoords='axes fraction', textcoords='offset points',
+            bbox=dict(facecolor='white', alpha=0.8),
+            horizontalalignment='right', verticalalignment='top')
 
-        
+        plt.show()

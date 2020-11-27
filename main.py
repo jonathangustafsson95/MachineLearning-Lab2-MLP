@@ -87,7 +87,7 @@ def main():
         y = y.reshape(len(x),1)
 
         dataset.X_train, dataset.X_test, dataset.y_train, dataset.y_test = \
-            train_test_split(x, y, test_size=0.25, random_state=0)
+            train_test_split(x, y, test_size=0.25)
 
         model = MLP(dataset.loss_f)
         for i in range(len(dataset.layers.act_f_of_layer)):
@@ -96,11 +96,6 @@ def main():
         model.train(dataset.X_train, dataset.y_train, dataset.learning_rate, dataset.epochs)
 
         dataset.pred = model.predict(dataset.X_test, dataset.y_test)
-
-
-        # Plot x = predicerade y. Y = dataset.ytest
-        # Slumpa data mängden innan split test/train
-        # 
 
         model.plot(dataset.name, dataset.epochs, dataset.y_test, dataset.pred)
 
